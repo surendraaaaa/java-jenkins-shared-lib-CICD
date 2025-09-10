@@ -7,7 +7,7 @@ pipeline {
             steps {
                 script {
                     gitcheckout(
-                        branch: "shell_scripting",
+                        branch: "main",
                         url: "https://github.com/surendraaaaa/java-jenkins-shared-lib-CICD.git"
                         )
                 }
