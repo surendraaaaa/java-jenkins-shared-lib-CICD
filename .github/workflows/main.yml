@@ -1,1 +1,51 @@
+name: java-git-CICD
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: git checkout
+        uses: actions/checkout@v4
+
+      - name: JDK set-up
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: maven
+
+      - name: Clean
+        run: mvn clean
+
+      - name: Validate project
+        run: mvn validate
+
+      - name: Compile
+        run: mvn compile
+
+      - name: Test
+        run: mvn test
+
+      - name: Package
+        run: mvn package
+
+      - name: Install
+        run: mvn install
+
+      - name: Run application
+        run: java -jar target/*.jar
+
+      - name: Upload JAR artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: java-app
+          path: target/*.jar    
+
 
