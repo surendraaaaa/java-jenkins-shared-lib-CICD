@@ -1,0 +1,52 @@
+---
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: java-maven
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: java-deployment
+  namespace: java-maven
+  labels:
+    app: java-maven
+spec:
+  replicas: 2
+  selector:               
+    matchLabels:
+      app: java-maven
+  template:
+    metadata:
+      labels:
+        app: java-maven
+    spec:
+      containers:
+      - name: java-maven-app   
+        image: surendraprajapati/java-demo-app:latest
+        ports:
+        - containerPort: 8080
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: java-maven-service
+  namespace: java-maven
+spec:
+  selector:
+    app: java-maven           
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: ClusterIP              
+
+
+
+
+    
